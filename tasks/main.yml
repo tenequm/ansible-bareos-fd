@@ -1,0 +1,38 @@
+---
+- name: Adding Bareos package key.
+  apt_key: url="http://download.bareos.org/bareos/release/latest/Debian_8.0//Release.key"
+
+- name: Adding Bareos repository.
+  apt_repository: repo="deb http://download.bareos.org/bareos/release/latest/Debian_8.0/ /"
+
+- name: Installing Bareos filedaemon package.
+  apt: 
+    name: bareos-filedaemon
+    cache_valid_time: 3600
+  with_items:
+    - bareos-filedaemon
+    - bareos-filedaemon-python-plugin
+
+- name: Adding plugins for Xtrabackup.
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ fd_plugins_dir }}"
+    mode: 0644
+  with_items:
+    - "https://raw.githubusercontent.com/bareos/bareos-contrib/master/fd-plugins/bareos_percona/BareosFdPercona.py"
+    - "https://raw.githubusercontent.com/bareos/bareos-contrib/master/fd-plugins/bareos_percona/bareos-fd-percona.py"
+  when: fd_add_xtrabackup_plugin
+
+- name: Adding director configuration file.
+  template:
+    src: director.conf.j2
+    dest: /etc/bareos/bareos-fd.d/director/{{ fd_dir_name }}.conf
+  notify: restart bareos-fd
+  when: fd_add_config
+
+- name: Adding client configuration file.
+  template:
+    src: client.conf.j2
+    dest: /etc/bareos/bareos-fd.d/client/myself.conf
+  notify: restart bareos-fd
+  when: fd_add_config

@@ -1,0 +1,7 @@
+---
+fd_add_config: false
+fd_client_name: client-fd
+fd_dir_name: bareos-dir
+fd_dir_pass: secret
+fd_plugins_dir: "/usr/lib/bareos/plugins"
+fd_add_xtrabackup_plugin: true

@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Mykhaylo Kolesnik
+  description: Ansible role for Bareos Filedaemon installation.
+
+  license: MIT
+
+  min_ansible_version: 2.4
+
+  platforms:
+  - name: Debian
+    versions:
+    - Jessie
+
+  galaxy_tags:
+    - bareos
+    - bareos-fd
