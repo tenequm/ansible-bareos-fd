@@ -9,7 +9,7 @@ galaxy_info:
   platforms:
   - name: Debian
     versions:
-    - "Jessie"
+    - "jessie"
 
   galaxy_tags:
     - "bareos"
